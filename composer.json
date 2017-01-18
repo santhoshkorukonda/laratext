@@ -18,11 +18,11 @@
     },
     "autoload": {
         "psr-4": {
-            "SantoshKorukonda\\LaraText\\": "src/LaraText"
+            "LaraText\\": "src/LaraText"
         },
         "files": [
-            "src/LaraText/helpers/helperfunction.php"
-            "src/LaraText/helpers/countrycodes.php"
+            "src/LaraText/Helpers/helperfunction.php"
+            "src/LaraText/Helpers/countrycodes.php"
         ]
     }
 }
