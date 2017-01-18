@@ -21,7 +21,7 @@
             "LaraText\\": "src/LaraText"
         },
         "files": [
-            "src/LaraText/Helpers/helperfunction.php"
+            "src/LaraText/Helpers/helperfunction.php",
             "src/LaraText/Helpers/countrycodes.php"
         ]
     }
