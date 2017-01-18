@@ -4,7 +4,7 @@ namespace LaraText\Exceptions;
 
 use Exception;
 
-class LaraTextException extends Exception
+class LaraTextReferenceException extends Exception
 {
     public function __construct($message, $code = 0, Exception $previous = null)
     {

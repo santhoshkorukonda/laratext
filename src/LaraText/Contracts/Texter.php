@@ -10,7 +10,7 @@ interface Texter
      * @param  string  $key
      * @return object
      */
-    public function getOption(string $key);
+    public function get($key = null);
 
     /**
      * Set an option
@@ -18,22 +18,7 @@ interface Texter
      * @param  mixed  $option
      * @return void
      */
-    public function setOption($option);
-
-    /**
-     * Get all options
-     *
-     * @return object
-     */
-    public function getOptions();
-
-    /**
-     * Set given all options
-     *
-     * @param  mixed  $options
-     * @return void
-     */
-    public function setOptions($options);
+    public function set($option);
 
     /**
      * Set recipients
