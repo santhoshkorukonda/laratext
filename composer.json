@@ -1,7 +1,7 @@
 {
-    "name": "santoshkorukonda/sms",
+    "name": "santhoshkorukonda/laratext",
     "description": "Developer friendly library to send SMS using msg91 sms gateway.",
-    "keywords": ["msg91 laravel", "msg91 laravel package", "santosh korukonda sms package"],
+    "keywords": ["laratext", "msg91 laravel", "msg91 laravel package", "santosh korukonda laravel package", "laravel sms package"],
     "homepage": "https://bitbucket.org/santoshkorukonda/msg91-laravel",
     "type": "library",
     "license": "MIT",
