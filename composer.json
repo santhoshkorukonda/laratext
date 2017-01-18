@@ -17,12 +17,12 @@
         "php": ">=5.6.4"
     },
     "autoload": {
-        "psr-4": {
-            "LaraText\\": "src/LaraText"
-        },
         "files": [
-            "src/LaraText/Helpers/helperfunction.php",
+            "src/LaraText/Helpers/assistant.php",
             "src/LaraText/Helpers/countrycodes.php"
-        ]
+        ],
+        "psr-4": {
+            "LaraText\\": "src/LaraText/"
+        }
     }
 }
