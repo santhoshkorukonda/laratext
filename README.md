@@ -58,6 +58,10 @@ Publish **LaraText configuration** file
 
 ``php artisan vendor:publish``
 
+## Quick Start
+
+Sending an SMS is simple and easy. Call ``sms($phone, $message)`` function from anywhere of your application to text the message.
+
 ## License
 
 This package is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
