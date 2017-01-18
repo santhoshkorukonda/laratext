@@ -1,10 +1,10 @@
 # LaraText
 
-Developer friendly Laravel package to text using msg91 sms gateway.
+Developer friendly Laravel package to text using [msg91](https://msg91.com/) sms gateway.
 
 ## Getting Started
 
-Install the latest version of the package with ``composer require santoshkorukonda/laratext``
+Install the latest version of the package with ``composer require santhoshkorukonda/laratext``
 
 ### Prerequisites
 
@@ -16,7 +16,7 @@ Install the latest version of the package with ``composer require santoshkorukon
 
 Detailed installation and configuration procedure of the package.
 
-Add ``santoshkorukonda/laratext`` package to your ``composer.json`` file
+Add ``santhoshkorukonda/laratext`` package to your ``composer.json`` file
 
 ```json
 {

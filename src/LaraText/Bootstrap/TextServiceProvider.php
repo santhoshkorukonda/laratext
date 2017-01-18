@@ -1,10 +1,12 @@
 <?php
 
-namespace SantoshKorukonda\SMS;
+namespace LaraText\Bootstrap;
+
+use LaraText\Texter;
 
 use Illuminate\Support\ServiceProvider;
 
-class SMSServiceProvider extends ServiceProvider
+class TextServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application services.
@@ -14,7 +16,7 @@ class SMSServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__.'/config/sms.php' => config_path('sms.php'),
+            __DIR__.'../Config/text.php' => config_path('text.php'),
         ]);
     }
 
@@ -25,8 +27,8 @@ class SMSServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind("santoshkorukonda.sms", function ($app) {
-            return new SMS();
+        $this->app->singleton("laratext.texter", function ($app) {
+            return new Texter();
         });
     }
 }

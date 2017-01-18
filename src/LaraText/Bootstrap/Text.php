@@ -1,13 +1,13 @@
 <?php
 
-namespace SantoshKorukonda\SMS;
+namespace LaraText\Bootstrap;
 
 use Illuminate\Support\Facades\Facade;
 
-class SMSFacade extends Facade
+class Text extends Facade
 {
     protected static function getFacadeAccessor()
     {
-        return 'santoshkorukonda.sms';
+        return 'laratext.texter';
     }
 }
