@@ -1,0 +1,27 @@
+{
+    "name": "santoshkorukonda/sms",
+    "description": "Developer friendly library to send SMS using msg91 sms gateway.",
+    "keywords": ["msg91 laravel", "msg91 laravel package", "santosh korukonda sms package"],
+    "homepage": "https://bitbucket.org/santoshkorukonda/msg91-laravel",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Santosh Korukonda",
+            "email": "itsmesan@outlook.com",
+            "role": "Developer"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=5.6.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "SantoshKorukonda\\SMS\\": "src/"
+        },
+        "files": [
+            "src/helper.php"
+        ]
+    }
+}
