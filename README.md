@@ -8,27 +8,27 @@ Install the latest version of the package with ```composer require santoshkoruko
 
 ### Prerequisites
 
-1. requires ```php >= 5.6.4```
-2. requires ```php ext-curl```
-3. requires ```monolog/log```
+1. requires ``php >= 5.6.4``
+2. requires ``php ext-curl``
+3. requires ``monolog/log``
 
 ### Installation
 
 Detailed installation and configuration procedure of the package.
 
-Add ```santoshkorukonda/laratext``` package to your ```composer.json``` file
+Add ``santoshkorukonda/laratext`` package to your ``composer.json`` file
 
-```json
+``json
 {
-    ...,
     "require": {
-        ...,
         "santoshkorukonda/laratext": "0.1",
-        ...,
     },
-    ...,
 }
-```
+``
+
+Update **composer** with
+
+```composer update```
 
 Add **LaraTextServiceProvider** to ```config/app.php```
 
