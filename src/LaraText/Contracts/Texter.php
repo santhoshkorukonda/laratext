@@ -26,7 +26,7 @@ interface Texter
      * @param  mixed  $to
      * @return void
      */
-    public function to();
+    public function to($to);
 
     /**
      * Text the message to given recipients

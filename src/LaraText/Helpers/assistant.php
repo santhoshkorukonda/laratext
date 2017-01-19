@@ -1,8 +1,8 @@
 <?php
 
 if (!function_exists("text")) {
-    function text($phone, string $message)
+    function text($mobiles, string $message)
     {
-        return Text::to($phone)->message($message)->send();
+        return Text::to($mobiles)->message($message)->send();
     }
 }

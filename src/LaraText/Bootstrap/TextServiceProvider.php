@@ -16,7 +16,7 @@ class TextServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__.'../Config/text.php' => config_path('text.php'),
+            __DIR__.'/../Config/text.php' => config_path('text.php'),
         ]);
     }
 
