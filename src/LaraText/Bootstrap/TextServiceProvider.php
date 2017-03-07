@@ -6,6 +6,9 @@ use LaraText\Texter;
 
 use Illuminate\Support\ServiceProvider;
 
+# LaraText console commands
+use LaraText\Console\TextMakeCommand;
+
 class TextServiceProvider extends ServiceProvider
 {
     /**
@@ -18,6 +21,12 @@ class TextServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/../Config/text.php' => config_path('text.php'),
         ]);
+
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                TextMakeCommand::class
+            ]);
+        }
     }
 
     /**
