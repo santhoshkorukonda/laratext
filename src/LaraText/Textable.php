@@ -1,11 +1,11 @@
 <?php
 
-namespace LaraText;
+namespace SanthoshKorukonda\LaraText;
 
 use stdClass;
-use LaraText\Exceptions\LaraTextException;
-use LaraText\Exceptions\LaraTextReferenceException;
-use LaraText\Contracts\Textable as TextableContract;
+use SanthoshKorukonda\LaraText\Exceptions\LaraTextException;
+use SanthoshKorukonda\LaraText\Exceptions\LaraTextReferenceException;
+use SanthoshKorukonda\LaraText\Contracts\Textable as TextableContract;
 
 class Textable implements TextableContract
 {

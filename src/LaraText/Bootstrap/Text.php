@@ -8,6 +8,6 @@ class Text extends Facade
 {
     protected static function getFacadeAccessor()
     {
-        return 'laratext.texter';
+        return 'texter';
     }
 }

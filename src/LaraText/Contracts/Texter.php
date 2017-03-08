@@ -5,17 +5,17 @@ namespace LaraText\Contracts;
 interface Texter
 {
     /**
-     * Set recipients
+     * Send a new message using a text.
      *
-     * @param  mixed  $to
+     * @param  string|array  $text
      * @return void
      */
-    public function to($to);
+    public function send($text);
 
     /**
-     * Text the message to given recipients
+     * Get the array of failed recipients.
      *
-     * @return object
+     * @return array
      */
-    public function send($textable);
+    public function failures();
 }
