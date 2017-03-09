@@ -1,37 +1,21 @@
 <?php
 
-namespace LaraText\Contracts;
+namespace SanthoshKorukonda\LaraText\Contracts;
 
 interface Texter
 {
     /**
-     * Get an option value of the given key.
+     * Send a new message using a text.
      *
-     * @param  string  $key
-     * @return object
-     */
-    public function get($key = null);
-
-    /**
-     * Set an option
-     *
-     * @param  mixed  $option
+     * @param  string|array  $text
      * @return void
      */
-    public function set($option);
+    public function send($text);
 
     /**
-     * Set recipients
+     * Get the array of failed recipients.
      *
-     * @param  mixed  $to
-     * @return void
+     * @return array
      */
-    public function to($to);
-
-    /**
-     * Text the message to given recipients
-     *
-     * @return object
-     */
-    public function send();
+    public function failures();
 }

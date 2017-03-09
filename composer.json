@@ -22,7 +22,7 @@
             "src/LaraText/Helpers/countrycodes.php"
         ],
         "psr-4": {
-            "LaraText\\": "src/LaraText/"
+            "SanthoshKorukonda\\LaraText\\": "src/LaraText/"
         }
     }
 }
