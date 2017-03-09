@@ -1,6 +1,6 @@
 <?php
 
-namespace LaraText\Bootstrap;
+namespace SanthoshKorukonda\LaraText\Bootstrap;
 
 use SanthoshKorukonda\LaraText\Texter;
 use Illuminate\Support\ServiceProvider;

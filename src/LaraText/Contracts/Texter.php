@@ -1,6 +1,6 @@
 <?php
 
-namespace LaraText\Contracts;
+namespace SanthoshKorukonda\LaraText\Contracts;
 
 interface Texter
 {
