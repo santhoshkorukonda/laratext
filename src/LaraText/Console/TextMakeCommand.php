@@ -1,6 +1,6 @@
 <?php
 
-namespace LaraText\Console;
+namespace SanthoshKorukonda\LaraText\Console;
 
 use Illuminate\Console\GeneratorCommand;
 

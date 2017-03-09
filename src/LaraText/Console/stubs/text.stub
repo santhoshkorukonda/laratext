@@ -2,7 +2,7 @@
 
 namespace DummyNamespace;
 
-use LaraText\Textable;
+use SanthoshKorukonda\LaraText\Textable;
 
 class DummyClass extends Textable
 {

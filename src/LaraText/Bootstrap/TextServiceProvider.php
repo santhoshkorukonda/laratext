@@ -48,6 +48,7 @@ class TextServiceProvider extends ServiceProvider
 
             return new Texter($config);
         });
+        $this->app->alias(TexterContract::class, "texter");
     }
 
     /**
@@ -57,6 +58,6 @@ class TextServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return ["texter"];
+        return [TexterContract::class, "texter"];
     }
 }
