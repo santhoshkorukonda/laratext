@@ -36,12 +36,39 @@ class Texter implements TexterContract
      * @param  string  $key
      * @return object
      */
-    public function __construct(array $config)
-    {
-        dd($config);
-        $gateway = config("text.gateway", "msg91");
+    public function __construct(array $config = [])
+    {        
+        if (empty($config)) {
 
-        $this->apiUrl = config("text.$gateway.url", null);
+            $config = app("config")->get("text");
+
+            $this->config = $this->makeConfig($config);
+
+        } else {
+
+            $this->config = $this->makeConfig($config);
+        }
+    }
+
+    protected function makeConfig(array $config)
+    {
+        $gateway = $config["gateway"];
+
+        if (empty($gateway)) {
+            
+            return [];
+
+        } else {
+
+            if (isset($config[$gateway])) {
+
+                return $config[$gateway];
+
+            } else {
+                
+                return [];
+            }
+        }
     }
 
     public function to($to)
