@@ -2,130 +2,47 @@
 
 namespace SanthoshKorukonda\LaraText;
 
-use stdClass;
-use SanthoshKorukonda\LaraText\Exceptions\LaraTextException;
-use SanthoshKorukonda\LaraText\Exceptions\LaraTextReferenceException;
+# Contracts
 use SanthoshKorukonda\LaraText\Contracts\Texter as TexterContract;
+use SanthoshKorukonda\LaraText\Contracts\Textable as TextableContract;
+use SanthoshKorukonda\LaraText\Contracts\Transport as TransportContract;
 
 class Texter implements TexterContract
 {
     /**
-     * Message to send.
+     * Transport driver to text the message.
      *
-     * @var  string  $message
+     * @var Transport
      */
-    protected $message = null;
-
-    /**
-     * List of recipient addresses.
-     *
-     * @var  string  $to
-     */
-    protected $to;
-
-    /**
-     * API endpoint URL
-     *
-     * @var  string  $apiUrl
-     */
-    protected $apiUrl;
+    protected $transport;
 
     /**
      * Get an option value of the given key.
      *
-     * @param  string  $key
-     * @return object
+     * @param  TransportContract  $transport
+     * @return void
      */
-    public function __construct(array $config = [])
-    {        
-        if (empty($config)) {
-
-            $config = app("config")->get("text");
-
-            $this->config = $this->makeConfig($config);
-
-        } else {
-
-            $this->config = $this->makeConfig($config);
-        }
+    public function __construct(TransportContract $transport)
+    {
+        $this->transport = $transport;
     }
 
-    protected function makeConfig(array $config)
+    /**
+     * Begin the process of texting a textable class instance.
+     *
+     * @param  mixed  $users
+     * @return \SanthoshKorukonda\LaraText\PendingText
+     */
+    public function to($users, string $property = "mobile")
     {
-        $gateway = $config["gateway"];
-
-        if (empty($gateway)) {
-            
-            return [];
-
-        } else {
-
-            if (isset($config[$gateway])) {
-
-                return $config[$gateway];
-
-            } else {
-                
-                return [];
-            }
-        }
+        return (new PendingText($this))->to($users, $property);
     }
 
-    public function to($to)
+    public function send(TextableContract $textable)
     {
-        if (is_array($to)) {
+        $message = $textable->send($this);
 
-            $this->to = implode(",", $to);
-
-        } else {
-
-            $this->to = $to;
-        }
-        return $this;
-    }
-
-    public function send($textable)
-    {
-        $curlHandle = curl_init($this->apiUrl);
-
-        curl_setopt_array($curlHandle, [
-            CURLOPT_POST => true,
-            CURLOPT_POSTFIELDS => $this->prepareFormData($textable),
-            CURLOPT_RETURNTRANSFER => true
-        ]);
-        $curlOutput = curl_exec($curlHandle);
-
-        $curlErrorNo = curl_errno($curlHandle);
-
-        if ($curlErrorNo) {
-
-            curl_close($curlHandle);
-
-            throw new LaraTextException(curl_error($curlHandle), $curlErrorNo);
-        }
-        curl_close($curlHandle);
-
-        return json_decode($curlOutput);
-    }
-
-    protected function prepareFormData($textable)
-    {
-        $textable = $textable->build();
-
-        return [
-
-            "authkey" => $textable->authKey(),
-
-            "mobiles" => $this->to,
-
-            "message" => $textable->content(),
-
-            "sender" => $textable->from(),
-
-            "route" => $textable->route(),
-
-            "response" => "json"
-        ];
+        return $this->transport->send($message);
     }
 
     public function failures()

@@ -1,8 +1,7 @@
 <?php
 
 return [
-
-    'msg91' => [
+    "msg91" => [
         'secret' => env('MSG91_SECRET'),
     ],
 ];

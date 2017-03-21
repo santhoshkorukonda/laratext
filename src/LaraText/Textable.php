@@ -2,216 +2,173 @@
 
 namespace SanthoshKorukonda\LaraText;
 
-use stdClass;
+use Illuminate\Support\Collection;
+use Illuminate\Container\Container;
 use SanthoshKorukonda\LaraText\Exceptions\LaraTextException;
 use SanthoshKorukonda\LaraText\Exceptions\LaraTextReferenceException;
 use SanthoshKorukonda\LaraText\Contracts\Textable as TextableContract;
+use SanthoshKorukonda\LaraText\Contracts\Texter as TexterContract;
 
 class Textable implements TextableContract
 {
     /**
-     * Message to send.
+     * The person the message is from.
      *
-     * @var  string  $message
+     * @var string
      */
-    protected $message = null;
+    public $from;
 
     /**
      * List of recipient addresses.
      *
-     * @var  string  $to
+     * @var array
      */
-    protected $to;
+    public $to = [];
 
     /**
-     * API endpoint URL
+     * The content of the message.
      *
-     * @var  string  $apiUrl
+     * @var string
      */
-    protected $apiUrl;
-
-    /**
-     * API authentication key
-     *
-     * @var  string  $authKey
-     */
-    protected $authKey;
-
-    /**
-     * Receiver will see this SenderID
-     *
-     * @var  string  $senderId
-     */
-    protected $senderId;
+    public $message;
 
     /**
      * Which route does the message should be routed
      *
-     * @var  string  $route
+     * @var  string
      */
-    protected $route;
+    public $route;
+
+    public $options = [];
 
     /**
-     * Set country to format your mobile numbers in international format
+     * Set the sender of the message.
      *
-     * @var  string  $country
+     * @param  string  $senderId
+     * @return $this
      */
-    protected $country;
+    public function from(string $senderId)
+    {
+        $this->senderId = $senderId;
+
+        return $this;
+    }
 
     /**
-     * Set default country to format your mobile numbers in international format
+     * Set the recipients of the message.
      *
-     * @var  int  $defaultCountry
+     * @param  object|array|string  $address
+     * @param  string  $property
+     * @return $this
      */
-    protected $defaultCountry;
+    public function to($address, string $property)
+    {
+        foreach ($this->addressesToArray($address, $property) as $recipient) {
+
+            $recipient = $this->normalizeRecipient($recipient, $property);
+
+            $this->to[] = $recipient->{$property};
+        }
+        return $this;
+    }
 
     /**
-     * Should I ignore India's Ndnc registry
+     * Determine if the given recipient is set on the textable.
      *
-     * @var  string  $ignoreNdnc
+     * @param  object|array|string  $address
+     * @param  string  $property
+     * @return bool
      */
-    protected $ignoreNdnc;
+    protected function hasTo($address, string $property = "mobile")
+    {
+        $expected = $this->normalizeRecipient(
+            $this->addressesToArray($address, $property)[0], $property
+        );
+        $expected = $expected->{$property};
+
+        return collect($this->to)->contains(function ($actual) use ($expected) {
+            return $actual == $expected;
+        });
+    }
 
     /**
-     * Set the campaign name
+     * Convert the given recipient arguments to an array.
      *
-     * @var  string  $campaign
+     * @param  object|array|string  $address
+     * @param  string  $property
+     * @return array
      */
-    protected $campaign;
+    protected function addressesToArray($address, string $property)
+    {
+        if (! is_array($address) && ! $address instanceof Collection) {
+
+            $address = is_string($address) ? [["$property" => $address]] : [$address];
+        }
+        return $address;
+    }
 
     /**
-     * Set the campaign name
+     * Convert the given recipient into an object.
      *
-     * @var  string  $campaign
-     */
-    protected $prefixCountryCode;
-
-    /**
-     * Set the campaign name
-     *
-     * @var  string  $campaign
-     */
-    protected $formatMobileNumbers;
-
-    /**
-     * Set the campaign name
-     *
-     * @var  string  $campaign
-     */
-    protected $flashMessage;
-
-    /**
-     * Set the campaign name
-     *
-     * @var  string  $campaign
-     */
-    protected $unicodeMessage;
-
-    /**
-     * Set the campaign name
-     *
-     * @var  string  $campaign
-     */
-    protected $scheduledDateTime;
-
-    /**
-     * Set the campaign name
-     *
-     * @var  string  $campaign
-     */
-    protected $response;
-
-    /**
-     * Get an option value of the given key.
-     *
-     * @param  string  $key
+     * @param  mixed  $recipient
      * @return object
      */
-    public function __construct()
+    protected function normalizeRecipient($recipient, string $property)
     {
-        $gateway = config("text.gateway", "msg91");
+        if (is_array($recipient)) {
 
-        $this->apiUrl = config("text.$gateway.url", null);
+            return (object) $recipient;
 
-        $this->authKey = config("text.$gateway.authKey", null);
+        } elseif (is_string($recipient)) {
 
-        $this->senderId = config("text.$gateway.senderId", null);
-
-        $this->route = (int) config("text.$gateway.route", null);
-
-        $this->country = config("text.$gateway.country", null);
-
-        $this->defaultCountry = config("text.$gateway.defaultCountryCode", null);
-
-        $this->flashMessage = null;
-
-        $this->unicodeMessage = null;
-
-        $this->ignoreNdnc = config("text.$gateway.ignoreNdnc", null);
-
-        $this->campaign = config("text.$gateway.campaign", null);
-
-        $this->prefixCountryCode = false;
-
-        $this->formatMobileNumbers = false;
-
-        $this->scheduledDateTime = null;
-
-        $this->response = "json";
+            return (object) ["$property" => $recipient];
+        }
+        return $recipient;
     }
 
-    public function from(string $senderId = null)
+    /**
+     * Set the content of the message.
+     *
+     * @param  string  $message
+     * @return $this
+     */
+    public function content(string $message)
     {
-        if ($senderId) {
+        $this->message = $message;
 
-            $this->senderId = $senderId;
-
-            return $this;
-
-        } else {
-
-            return $this->senderId;
-        }
+        return $this;
     }
 
-    public function content(string $message = null)
+    /**
+     * Set the route for the message.
+     *
+     * @param  int  $route
+     * @return $this
+     */
+    public function route(int $route)
     {
-        if ($message) {
+        $this->route = $route;
 
-            $this->message = $message;
-
-            return $this;
-        } else {
-
-            return $this->message;
-        }
+        return $this;
     }
 
-    public function route(int $route = null)
+    /**
+     * Set any additional options to text the message.
+     *
+     * @param  array  $options
+     * @return $this
+     */
+    public function options(array $options)
     {
-        if ($route) {
+        $this->options = $options;
 
-            $this->route = $route;
-
-            return $this;
-
-        } else {
-
-            $this->route;
-        }
+        return $this;
     }
 
-    public function authKey(string $authKey = null)
+    public function send(TexterContract $texter)
     {
-        if ($authKey) {
+        Container::getInstance()->call([$this, 'build']);
 
-            $this->authKey = $authKey;
-
-            return $this;
-
-        } else {
-
-            return $this->authKey;
-        }
+        return (new Message($this));
     }
 }

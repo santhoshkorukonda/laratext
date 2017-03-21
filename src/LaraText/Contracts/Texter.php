@@ -10,7 +10,7 @@ interface Texter
      * @param  string|array  $text
      * @return void
      */
-    public function send($text);
+    public function send(Textable $textable);
 
     /**
      * Get the array of failed recipients.

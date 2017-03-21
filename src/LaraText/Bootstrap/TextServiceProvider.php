@@ -4,6 +4,7 @@ namespace SanthoshKorukonda\LaraText\Bootstrap;
 
 use SanthoshKorukonda\LaraText\Texter;
 use Illuminate\Support\ServiceProvider;
+use SanthoshKorukonda\LaraText\TransportManager;
 use SanthoshKorukonda\LaraText\Console\TextMakeCommand;
 use SanthoshKorukonda\LaraText\Contracts\Texter as TexterContract;
 
@@ -42,13 +43,28 @@ class TextServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->registerTexterTransport();
+
         $this->app->singleton(TexterContract::class, function ($app) {
 
-            $config = $app->make('config')->get('text');
+            $transport = $app["texter.transport"];
 
-            return new Texter($config);
+            return new Texter($transport->driver());
         });
         $this->app->alias(TexterContract::class, "texter");
+    }
+
+    /**
+     * Register the Texter Transport instance.
+     *
+     * @return void
+     */
+    protected function registerTexterTransport()
+    {
+        $this->app->singleton("texter.transport", function ($app) {
+            
+            return new TransportManager($app);
+        });
     }
 
     /**
